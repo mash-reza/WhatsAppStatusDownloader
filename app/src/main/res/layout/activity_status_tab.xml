@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Splash">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/splash_background_image_view"
-        android:scaleType="fitXY"/>
+    tools:context=".StatusTab">
 
 </android.support.constraint.ConstraintLayout>
