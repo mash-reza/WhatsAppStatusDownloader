@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WhatsAppStatusDownloader</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_item_cached_title">Status</string>
+    <string name="tab_item_gallery_title">Downloaded</string>
 </resources>

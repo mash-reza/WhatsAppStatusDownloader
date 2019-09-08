@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">استاتوس دانلودر واتس اپ</string>
+    <string name="tab_item_cached_title">استاتوس</string>
+    <string name="tab_item_gallery_title">دانلود شده</string>
+</resources>
