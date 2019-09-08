@@ -1,4 +1,4 @@
-package com.example.whatsappstatusdownloader;
+package com.example.whatsappstatusdownloader.view.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.example.whatsappstatusdownloader.R;
 
 import java.io.IOException;
 

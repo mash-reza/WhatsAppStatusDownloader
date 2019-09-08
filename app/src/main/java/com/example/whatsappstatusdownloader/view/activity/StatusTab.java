@@ -1,7 +1,9 @@
-package com.example.whatsappstatusdownloader;
+package com.example.whatsappstatusdownloader.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.whatsappstatusdownloader.R;
 
 public class StatusTab extends AppCompatActivity {
 
