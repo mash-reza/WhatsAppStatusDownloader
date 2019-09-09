@@ -2,6 +2,9 @@ package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.media.audiofx.DynamicsProcessing;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -94,11 +97,11 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
                 int count;
                 byte[] buffer = new byte[1024];
                 while ((count = in.read(buffer)) != -1) {
-                    out.write(buffer,0,count);
+                    out.write(buffer, 0, count);
                 }
-                Log.e(TAG, "onBindViewHolder: writing successful",null);
+                Log.e(TAG, "onBindViewHolder: writing successful", null);
             } catch (FileNotFoundException e) {
-                Log.e(TAG, "onBindViewHolder: ",e);
+                Log.e(TAG, "onBindViewHolder: ", e);
             } catch (IOException e) {
                 Log.e(TAG, "onBindViewHolder: ", e);
             } finally {
@@ -106,6 +109,13 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
                     try {
                         out.flush();
                         out.close();
+                        //scanning images
+                        MediaScannerConnection.scanFile(context,
+                                new String[]{new File(folderRoot, "image00" + i + ".jpg").getPath()}, null,
+                                (path, uri) -> {
+                                    Log.i(TAG, "onBindViewHolder: scanned " + path);
+                                }
+                        );
 
                     } catch (IOException e) {
                         e.printStackTrace();
