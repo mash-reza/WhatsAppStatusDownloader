@@ -43,6 +43,7 @@ public class StatusTab extends AppCompatActivity {
 
         //setting viewpager
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount()));
+//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         checkStoragePermission();
@@ -69,4 +70,5 @@ public class StatusTab extends AppCompatActivity {
             Toast.makeText(this,"granted",Toast.LENGTH_SHORT).show();
         }
     }
+
 }

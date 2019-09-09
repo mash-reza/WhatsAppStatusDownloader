@@ -31,4 +31,9 @@ public class PageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return numberOfTabs;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 }

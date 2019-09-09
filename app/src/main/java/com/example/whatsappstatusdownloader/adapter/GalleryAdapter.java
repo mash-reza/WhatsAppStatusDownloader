@@ -1,6 +1,7 @@
 package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,6 +47,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
         }else if(statusList.get(i).getType() == Constants.STATUS_TYPE_VIDEO){
             myHolder.videoView.setVisibility(View.VISIBLE);
             myHolder.imageView.setVisibility(View.GONE);
+            myHolder.videoView.setVideoURI(Uri.parse(statusList.get(i).getAddress()));
+            myHolder.videoView.setOnClickListener(v -> {
+                if (myHolder.videoView.isPlaying())
+                    myHolder.videoView.pause();
+                else
+                    myHolder.videoView.start();
+            });
 
 
 
