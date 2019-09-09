@@ -4,17 +4,13 @@ package com.example.whatsappstatusdownloader.view.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.whatsappstatusdownloader.R;
-import com.example.whatsappstatusdownloader.adapter.CachedAdapter;
 import com.example.whatsappstatusdownloader.adapter.GalleryAdapter;
-import com.example.whatsappstatusdownloader.util.DummyData;
 
 
 /**

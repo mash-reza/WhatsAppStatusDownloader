@@ -5,7 +5,7 @@ import com.example.whatsappstatusdownloader.model.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DummyData {
+public class Repository {
 
     public static List<Status> getStatus(){
         List<Status> statuses = new ArrayList<>();
