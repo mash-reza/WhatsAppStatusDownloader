@@ -29,6 +29,6 @@ public class Splash extends AppCompatActivity {
         }
         new Handler().postDelayed(() -> {
             startActivity(new Intent(Splash.this,StatusTab.class));
-        },2000);
+        },20);
     }
 }

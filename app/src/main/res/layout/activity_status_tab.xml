@@ -29,19 +29,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_item_cached_title"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccent" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/galleryTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_item_gallery_title"/>
+
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/viewPager"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </android.support.constraint.ConstraintLayout>
