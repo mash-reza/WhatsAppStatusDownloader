@@ -1,10 +1,7 @@
 package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
-import android.media.audiofx.DynamicsProcessing;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -21,8 +18,8 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.model.Status;
+import com.example.whatsappstatusdownloader.util.Constants;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,7 +31,6 @@ import java.util.List;
 
 public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> {
     private static final String TAG = "CachedAdapter";
-    private static final String IMAGES_FOLDER_GALLERY_NAME = "WhatApp DownLoader";
 
     private Context context;
     private List<Status> statuses;
@@ -52,7 +48,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-        if (statuses.get(i).getType() == Status.TYPE_IMAGE) {
+        if (statuses.get(i).getType() == Constants.STATUS_TYPE_IMAGE) {
             myHolder.videoView.setVisibility(View.GONE);
             myHolder.imageView.setVisibility(View.VISIBLE);
             String filePath = Environment.getExternalStorageDirectory().getAbsoluteFile() + statuses.get(i).getAddress();
@@ -78,7 +74,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
             //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
 
             //make pictures dir in gallery
-            File folderRoot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(), IMAGES_FOLDER_GALLERY_NAME);
+            File folderRoot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(), Constants.IMAGES_FOLDER_GALLERY_NAME);
             folderRoot.mkdirs();
 
             //retrieve image from whatsapp

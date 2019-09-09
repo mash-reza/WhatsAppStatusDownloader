@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.adapter.GalleryAdapter;
+import com.example.whatsappstatusdownloader.util.Repository;
 
 
 /**
@@ -35,8 +36,7 @@ public class GalleryStatus extends Fragment {
         recyclerView = view.findViewById(R.id.gallery_recycler_view);
         GridLayoutManager manager = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new GalleryAdapter(getActivity()));
-
+        recyclerView.setAdapter(new GalleryAdapter(getActivity(), Repository.getStatusFromPhone()));
         return view;
     }
 
