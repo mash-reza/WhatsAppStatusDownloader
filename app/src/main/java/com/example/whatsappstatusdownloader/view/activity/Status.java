@@ -1,9 +1,13 @@
 package com.example.whatsappstatusdownloader.view.activity;
 
 import android.content.Intent;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -12,16 +16,19 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.util.Constants;
+import com.ortiz.touchview.TouchImageView;
 
 import java.io.File;
 
-public class Status extends AppCompatActivity {
+
+public class Status extends AppCompatActivity  {
     private static final String TAG = "Status";
+
 
     int type;
     String path;
 
-    ImageView imageView;
+    TouchImageView imageView;
     VideoView videoView;
 
     @Override
@@ -39,7 +46,7 @@ public class Status extends AppCompatActivity {
             videoView.setVisibility(View.GONE);
             Glide.with(this).load(new File(path)).into(imageView);
         } else if (type == Constants.STATUS_TYPE_VIDEO) {
-            imageView.setVisibility(View.GONE);
+            //imageView.setVisibility(View.GONE);
             videoView.setVideoURI(Uri.parse(path));
             MediaController mc = new MediaController(this);
             mc.setAnchorView(videoView);

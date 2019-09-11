@@ -7,8 +7,7 @@
     tools:context=".view.activity.Status"
     android:background="@android:color/black">
 
-    <ImageView
-
+    <com.ortiz.touchview.TouchImageView
         android:id="@+id/status_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
