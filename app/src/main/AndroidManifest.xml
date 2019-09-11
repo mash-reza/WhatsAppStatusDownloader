@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.activity.Status"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" android:parentActivityName=".view.activity.StatusTab"></activity>
         <activity
             android:name=".view.activity.StatusTab"
             android:screenOrientation="portrait" />

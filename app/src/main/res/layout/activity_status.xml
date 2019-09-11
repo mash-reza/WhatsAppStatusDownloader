@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.Status"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:id="@+id/status_layout">
 
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/status_imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

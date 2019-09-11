@@ -35,7 +35,7 @@ public class GalleryStatus extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_gallery_status, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery_status, container, false);
 
         return view;
     }
@@ -45,8 +45,8 @@ public class GalleryStatus extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //recyclerView
         recyclerView = view.findViewById(R.id.gallery_recycler_view);
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new GalleryAdapter(getActivity(), Repository.getStatusFromPhone(),recyclerView));
+        recyclerView.setAdapter(new GalleryAdapter(getActivity(), Repository.getStatusFromPhone()));
     }
 }

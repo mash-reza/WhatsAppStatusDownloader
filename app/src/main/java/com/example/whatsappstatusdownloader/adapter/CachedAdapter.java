@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.media.MediaScannerConnection;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,12 +40,10 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
 
     private Context context;
     private List<Status> statuses;
-    private RecyclerView recyclerView;
 
-    public CachedAdapter(Context context, List<Status> statuses, RecyclerView recyclerView) {
+    public CachedAdapter(Context context, List<Status> statuses) {
         this.context = context;
         this.statuses = statuses;
-        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -67,6 +69,8 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
             }
             case Constants.STATUS_TYPE_VIDEO: {
                 //set thumbnail
+//                Glide.with(context).load(ThumbnailUtils.createVideoThumbnail(statuses.get(i).getAddress(), MediaStore.Video.Thumbnails.MICRO_KIND)).into(myHolder.image);
+                Glide.with(context).load(Uri.parse(statuses.get(i).getAddress())).into(myHolder.image);
                 myHolder.foreground.setOnClickListener(v -> {
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("type", Constants.STATUS_TYPE_VIDEO);

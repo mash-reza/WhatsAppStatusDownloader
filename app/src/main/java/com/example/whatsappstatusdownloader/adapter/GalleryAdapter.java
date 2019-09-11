@@ -2,7 +2,9 @@ package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,12 +27,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
 
     private Context context;
     private List<Status> statusList;
-    private RecyclerView recyclerView;
 
-    public GalleryAdapter(Context context, List<Status> statusList, RecyclerView recyclerView) {
+    public GalleryAdapter(Context context, List<Status> statusList) {
         this.context = context;
         this.statusList = statusList;
-        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -46,7 +46,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
             case Constants.STATUS_TYPE_IMAGE:
                 myHolder.foreground.setVisibility(View.GONE);
                 myHolder.playIcon.setVisibility(View.GONE);
-                Glide.with(context).load(new File(statusList.get(i).getAddress())).into(myHolder.image);
+                Glide.with(context).load(Uri.parse(statusList.get(i).getAddress())).into(myHolder.image);
                 myHolder.image.setOnClickListener(v -> {
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("path", statusList.get(i).getAddress());
@@ -55,7 +55,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                 });
                 break;
             case Constants.STATUS_TYPE_VIDEO:
-                myHolder.image.setVisibility(View.GONE);
+                Glide.with(context).load(ThumbnailUtils.createVideoThumbnail(
+                        statusList.get(i).getAddress(), MediaStore.Video.Thumbnails.MICRO_KIND)).into(myHolder.image);
                 myHolder.foreground.setOnClickListener(v -> {
                     Intent intent2 = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent2.putExtra("path", statusList.get(i).getAddress());
