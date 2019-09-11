@@ -1,6 +1,8 @@
 package com.example.whatsappstatusdownloader.adapter;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -8,10 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -29,147 +34,52 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> {
+public class CachedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "CachedAdapter";
+
 
     private Context context;
     private List<Status> statuses;
+    private RecyclerView recyclerView;
 
-    public CachedAdapter(Context context, List<Status> statuses) {
+    public CachedAdapter(Context context, List<Status> statuses, RecyclerView recyclerView) {
         this.context = context;
         this.statuses = statuses;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
     @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyHolder(LayoutInflater.from(context).inflate(R.layout.cached_list_item, viewGroup, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+        switch (i) {
+            case Constants.STATUS_TYPE_IMAGE:
+                return new ImageHolder(LayoutInflater.from(context).inflate(R.layout.cached_list_item_image_view, viewGroup, false));
+            case Constants.STATUS_TYPE_VIDEO:
+                return new VideoHolder(LayoutInflater.from(context).inflate(R.layout.cached_list_item_video_view, viewGroup, false));
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-        if (statuses.get(i).getType() == Constants.STATUS_TYPE_IMAGE) {
-            myHolder.videoView.setVisibility(View.GONE);
-            myHolder.imageView.setVisibility(View.VISIBLE);
-            Glide.with(context).load(new File(statuses.get(i).getAddress())).into(myHolder.imageView);
-        } else {
-            myHolder.imageView.setVisibility(View.GONE);
-            myHolder.videoView.setVisibility(View.VISIBLE);
-
-//            File file = new File("/sdcard/WhatsApp/Media/WhatsApp Video/Private/vid01.mp4");
-            Uri uri = Uri.parse(statuses.get(i).getAddress());
-            myHolder.videoView.setVideoURI(uri);
-            myHolder.videoView.setOnClickListener(v -> {
-                if (myHolder.videoView.isPlaying())
-                    myHolder.videoView.pause();
-                else
-                    myHolder.videoView.start();
-            });
-        }
-        myHolder.imageButton.setOnClickListener(v -> {
-            if (statuses.get(i).getType() == Constants.STATUS_TYPE_IMAGE) {
-                Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
-                //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
-
-                //make pictures dir in gallery
-                File folderRoot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
-                folderRoot.mkdirs();
-
-                //retrieve image from whatsapp
-                InputStream in = null;
-                try {
-//                    in = new FileInputStream(Environment.getExternalStorageDirectory().getAbsoluteFile() + statuses.get(i).getAddress());
-                    in = new FileInputStream(statuses.get(i).getAddress());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-
-                //write to gallery
-                OutputStream out = null;
-                try {
-                    out = new FileOutputStream(new File(folderRoot, "image00" + i + ".jpg"));
-                    int count;
-                    byte[] buffer = new byte[1024];
-                    while ((count = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, count);
-                    }
-                    Log.e(TAG, "onBindViewHolder: writing successful", null);
-                } catch (FileNotFoundException e) {
-                    Log.e(TAG, "onBindViewHolder: ", e);
-                } catch (IOException e) {
-                    Log.e(TAG, "onBindViewHolder: ", e);
-                } finally {
-                    if (out != null) {
-                        try {
-                            out.flush();
-                            out.close();
-                            //scanning images
-                            MediaScannerConnection.scanFile(context,
-                                    new String[]{new File(folderRoot, "image00" + i + ".jpg").getPath()}, null,
-                                    (path, uri) -> {
-                                        Log.i(TAG, "onBindViewHolder: scanned " + path);
-                                    }
-                            );
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-
-            } else if (statuses.get(i).getType() == Constants.STATUS_TYPE_VIDEO) {
-                Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
-                //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
-
-                //make pictures dir in gallery
-                File folderRoot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
-                folderRoot.mkdirs();
-
-                //retrieve image from whatsapp
-                InputStream in = null;
-                try {
-                    in = new FileInputStream(statuses.get(i).getAddress());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-
-                //write to gallery
-                OutputStream out = null;
-                try {
-                    out = new FileOutputStream(new File(folderRoot, "video" + i + ".mp4"));
-                    int count;
-                    byte[] buffer = new byte[1024];
-                    while ((count = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, count);
-                    }
-                    Log.e(TAG, "onBindViewHolder: writing successful", null);
-                } catch (FileNotFoundException e) {
-                    Log.e(TAG, "onBindViewHolder: ", e);
-                } catch (IOException e) {
-                    Log.e(TAG, "onBindViewHolder: ", e);
-                } finally {
-                    if (out != null) {
-                        try {
-                            out.flush();
-                            out.close();
-                            //scanning images
-                            MediaScannerConnection.scanFile(context,
-                                    new String[]{new File(folderRoot, "video" + i + ".mp4").getPath()}, null,
-                                    (path, uri) -> {
-                                        Log.i(TAG, "onBindViewHolder: scanned " + path);
-                                    }
-                            );
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder myHolder, int i) {
+        switch (myHolder.getItemViewType()) {
+            case Constants.STATUS_TYPE_IMAGE: {
+                ImageHolder holder = (ImageHolder) myHolder;
+                Glide.with(context).load(new File(statuses.get(i).getAddress())).centerCrop().into(holder.imageView);
+                break;
             }
-        });
+            case Constants.STATUS_TYPE_VIDEO: {
+                VideoHolder holder = (VideoHolder) myHolder;
+                Uri uri = Uri.parse(statuses.get(i).getAddress());
+                holder.videoView.setVideoURI(uri);
+                holder.videoView.seekTo(1);
+                break;
+            }
+
+        }
+
     }
 
     @Override
@@ -177,16 +87,140 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
         return statuses.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return statuses.get(position).getType();
+    }
+
+    class ImageHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        ImageButton imageButton;
+
+        ImageHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.cached_imageView_item);
+            imageButton = itemView.findViewById(R.id.cached_download_imageButton);
+            imageButton.setOnClickListener(v -> {
+                Log.i(TAG, "ImageHolder: " + recyclerView.getChildAdapterPosition(itemView));
+                Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
+                //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
+
+                //make pictures dir in gallery
+                File folderRoot = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
+                folderRoot.mkdirs();
+
+                //retrieve image from whatsapp
+                InputStream in = null;
+                try {
+//                    in = new FileInputStream(Environment.getExternalStorageDirectory().getAbsoluteFile() + statuses.get(i).getAddress());
+                    in = new FileInputStream(statuses.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
+                //write to gallery
+                OutputStream out = null;
+                try {
+                    out = new FileOutputStream(new File(folderRoot, "image00" + recyclerView.getChildAdapterPosition(itemView) + ".jpg"));
+                    int count;
+                    byte[] buffer = new byte[1024];
+                    while ((count = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, count);
+                    }
+                    Log.e(TAG, "onBindViewHolder: writing successful", null);
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "onBindViewHolder: ", e);
+                } catch (IOException e) {
+                    Log.e(TAG, "onBindViewHolder: ", e);
+                } finally {
+                    if (out != null) {
+                        try {
+                            out.flush();
+                            out.close();
+                            //scanning images
+                            MediaScannerConnection.scanFile(context,
+                                    new String[]{new File(folderRoot, "image00" + recyclerView.getChildAdapterPosition(itemView) + ".jpg").getPath()}, null,
+                                    (path, uri) -> {
+                                        Log.i(TAG, "onBindViewHolder: scanned " + path);
+                                    }
+                            );
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    class VideoHolder extends RecyclerView.ViewHolder {
         VideoView videoView;
         ImageButton imageButton;
 
-        MyHolder(@NonNull View itemView) {
+        VideoHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.cached_imageView_item);
             videoView = itemView.findViewById(R.id.cached_videoView_item);
             imageButton = itemView.findViewById(R.id.cached_download_imageButton);
+            videoView.setOnClickListener(v -> {
+                MediaController mc = new MediaController(context);
+                mc.setAnchorView(videoView);
+                mc.setMediaPlayer(videoView);
+                videoView.setMediaController(mc);
+                mc.show();
+            });
+            imageButton.setOnClickListener(v -> {
+                Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
+                //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
+
+                //make pictures dir in gallery
+                File folderRoot = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
+                folderRoot.mkdirs();
+
+                //retrieve image from whatsapp
+                InputStream in = null;
+                try {
+                    in = new FileInputStream(statuses.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
+                //write to gallery
+                OutputStream out = null;
+                try {
+                    out = new FileOutputStream(new File(folderRoot, "video" + recyclerView.getChildAdapterPosition(itemView) + ".mp4"));
+                    int count;
+                    byte[] buffer = new byte[1024];
+                    while ((count = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, count);
+                    }
+                    Log.e(TAG, "onBindViewHolder: writing successful", null);
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "onBindViewHolder: ", e);
+                } catch (IOException e) {
+                    Log.e(TAG, "onBindViewHolder: ", e);
+                } finally {
+                    if (out != null) {
+                        try {
+                            out.flush();
+                            out.close();
+                            //scanning images
+                            MediaScannerConnection.scanFile(context,
+                                    new String[]{new File(folderRoot, "video" + recyclerView.getChildAdapterPosition(itemView) + ".mp4").getPath()}, null,
+                                    (path, uri1) -> {
+                                        Log.i(TAG, "onBindViewHolder: scanned " + path);
+                                    }
+                            );
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
         }
     }
+
 }

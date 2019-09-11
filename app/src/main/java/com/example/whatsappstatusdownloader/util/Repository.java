@@ -30,17 +30,11 @@ public class Repository {
 
     public static List<Status> getStatusFromPhone() {
         List<Status> statuses = new ArrayList<>();
-        String imageFolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + Constants.MEDIA_FOLDER_GALLERY_NAME;
-        String videoFolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath() + File.separator + Constants.MEDIA_FOLDER_GALLERY_NAME;
-        File imageFolderFile = new File(imageFolderPath);
-        File videoFolderFile = new File(videoFolderPath);
-        imageFolderFile.mkdirs();
-        videoFolderFile.mkdirs();
-        File[] imageFileList = imageFolderFile.listFiles();
-        File[] videoFileList = videoFolderFile.listFiles();
-        File[] fileList = (File[]) Array.newInstance(imageFileList.getClass().getComponentType(), imageFileList.length + videoFileList.length);
-        System.arraycopy(imageFileList, 0, fileList, 0, imageFileList.length);
-        System.arraycopy(videoFileList, 0, fileList, imageFileList.length, videoFileList.length);
+        String folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.MEDIA_FOLDER_GALLERY_NAME;
+        File folderFile = new File(folderPath);
+        folderFile.mkdirs();
+        File[] fileList = folderFile.listFiles();
+
         //Arrays.sort(fileList);
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].getAbsolutePath().contains(".jpg"))

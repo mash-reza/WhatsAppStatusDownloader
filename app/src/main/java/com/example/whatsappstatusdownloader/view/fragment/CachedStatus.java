@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,11 @@ public class CachedStatus extends Fragment {
 
         //recyclerView
         recyclerView = view.findViewById(R.id.cached_recycler_view);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),2);
+        Line manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new CachedAdapter(getActivity(), Repository.getStatus()));
-
+        recyclerView.setAdapter(new CachedAdapter(getActivity(), Repository.getStatus(),view.findViewById(R.id.cached_recycler_view)));
+//        recyclerView.setDrawingCacheEnabled(true);
+//        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         return view;
     }

@@ -1,6 +1,7 @@
 package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
@@ -23,10 +25,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
 
     private Context context;
     private List<Status> statusList;
+    private RecyclerView recyclerView;
 
-    public GalleryAdapter(Context context, List<Status> statusList) {
+    public GalleryAdapter(Context context, List<Status> statusList,RecyclerView recyclerView) {
         this.context = context;
         this.statusList = statusList;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -36,18 +40,26 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GalleryAdapter.MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
 
         if(statusList.get(i).getType() == Constants.STATUS_TYPE_IMAGE){
             myHolder.videoView.setVisibility(View.GONE);
             myHolder.imageView.setVisibility(View.VISIBLE);
-            Glide.with(context).load(new File(statusList.get(i).getAddress())).into(myHolder.imageView);
+            Glide.with(context).load(new File(statusList.get(i).getAddress())).centerCrop().into(myHolder.imageView);
 
 
         }else if(statusList.get(i).getType() == Constants.STATUS_TYPE_VIDEO){
             myHolder.videoView.setVisibility(View.VISIBLE);
             myHolder.imageView.setVisibility(View.GONE);
+            MediaController mc = new MediaController(context);
+            mc.setAnchorView(myHolder.videoView);
+            mc.setMediaPlayer(myHolder.videoView);
+            myHolder.videoView.setMediaController(mc);
             myHolder.videoView.setVideoURI(Uri.parse(statusList.get(i).getAddress()));
+            myHolder.videoView.seekTo(1);
+            myHolder.videoView.setOnClickListener(v -> {
+                mc.show();
+            });
             myHolder.videoView.setOnClickListener(v -> {
                 if (myHolder.videoView.isPlaying())
                     myHolder.videoView.pause();
@@ -79,6 +91,18 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
             videoView = itemView.findViewById(R.id.gallery_videoView_item);
             deleteImageButton = itemView.findViewById(R.id.gallery_delete_imageButton);
             shareImageButton = itemView.findViewById(R.id.gallery_share_imageButton);
+            imageView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
+                intent.putExtra("path",statusList.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
+                intent.putExtra("type",Constants.STATUS_TYPE_IMAGE);
+                context.startActivity(intent);
+            });
+            videoView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
+                intent.putExtra("path",statusList.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
+                intent.putExtra("type",Constants.STATUS_TYPE_VIDEO);
+                context.startActivity(intent);
+            });
         }
     }
 }

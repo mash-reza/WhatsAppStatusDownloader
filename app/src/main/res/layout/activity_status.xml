@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.Status">
 
+    <ImageView
+        android:id="@+id/status_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <VideoView
+        android:id="@+id/status_videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
