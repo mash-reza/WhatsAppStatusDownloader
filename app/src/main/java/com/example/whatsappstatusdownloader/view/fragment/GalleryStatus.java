@@ -47,6 +47,6 @@ public class GalleryStatus extends Fragment {
         recyclerView = view.findViewById(R.id.gallery_recycler_view);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new GalleryAdapter(getActivity(), Repository.getStatusFromPhone()));
+        recyclerView.setAdapter(new GalleryAdapter(getActivity(), Repository.getStatusFromPhone(),recyclerView));
     }
 }

@@ -27,7 +27,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
     private List<Status> statusList;
     private RecyclerView recyclerView;
 
-    public GalleryAdapter(Context context, List<Status> statusList,RecyclerView recyclerView) {
+    public GalleryAdapter(Context context, List<Status> statusList, RecyclerView recyclerView) {
         this.context = context;
         this.statusList = statusList;
         this.recyclerView = recyclerView;
@@ -42,37 +42,28 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
 
-        if(statusList.get(i).getType() == Constants.STATUS_TYPE_IMAGE){
-            myHolder.videoView.setVisibility(View.GONE);
-            myHolder.imageView.setVisibility(View.VISIBLE);
-            Glide.with(context).load(new File(statusList.get(i).getAddress())).centerCrop().into(myHolder.imageView);
-
-
-        }else if(statusList.get(i).getType() == Constants.STATUS_TYPE_VIDEO){
-            myHolder.videoView.setVisibility(View.VISIBLE);
-            myHolder.imageView.setVisibility(View.GONE);
-            MediaController mc = new MediaController(context);
-            mc.setAnchorView(myHolder.videoView);
-            mc.setMediaPlayer(myHolder.videoView);
-            myHolder.videoView.setMediaController(mc);
-            myHolder.videoView.setVideoURI(Uri.parse(statusList.get(i).getAddress()));
-            myHolder.videoView.seekTo(1);
-            myHolder.videoView.setOnClickListener(v -> {
-                mc.show();
-            });
-            myHolder.videoView.setOnClickListener(v -> {
-                if (myHolder.videoView.isPlaying())
-                    myHolder.videoView.pause();
-                else
-                    myHolder.videoView.start();
-            });
-
-
-
+        switch (getItemViewType(i)) {
+            case Constants.STATUS_TYPE_IMAGE:
+                myHolder.foreground.setVisibility(View.GONE);
+                myHolder.playIcon.setVisibility(View.GONE);
+                Glide.with(context).load(new File(statusList.get(i).getAddress())).into(myHolder.image);
+                myHolder.image.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
+                    intent.putExtra("path", statusList.get(i).getAddress());
+                    intent.putExtra("type", Constants.STATUS_TYPE_IMAGE);
+                    context.startActivity(intent);
+                });
+                break;
+            case Constants.STATUS_TYPE_VIDEO:
+                myHolder.image.setVisibility(View.GONE);
+                myHolder.foreground.setOnClickListener(v -> {
+                    Intent intent2 = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
+                    intent2.putExtra("path", statusList.get(i).getAddress());
+                    intent2.putExtra("type", Constants.STATUS_TYPE_VIDEO);
+                    context.startActivity(intent2);
+                });
+                break;
         }
-
-
-
     }
 
     @Override
@@ -80,29 +71,26 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
         return statusList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return statusList.get(position).getType();
+    }
+
+
     class MyHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        VideoView videoView;
+        ImageView image;
+        ImageView foreground;
+        ImageView playIcon;
         ImageButton deleteImageButton;
         ImageButton shareImageButton;
+
         MyHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.gallery_imageView_item);
-            videoView = itemView.findViewById(R.id.gallery_videoView_item);
+            image = itemView.findViewById(R.id.gallery_imageView_item);
+            foreground = itemView.findViewById(R.id.gallery_item_foreground);
+            playIcon = itemView.findViewById(R.id.gallery_play_icon_imageView);
             deleteImageButton = itemView.findViewById(R.id.gallery_delete_imageButton);
             shareImageButton = itemView.findViewById(R.id.gallery_share_imageButton);
-            imageView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
-                intent.putExtra("path",statusList.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
-                intent.putExtra("type",Constants.STATUS_TYPE_IMAGE);
-                context.startActivity(intent);
-            });
-            videoView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
-                intent.putExtra("path",statusList.get(recyclerView.getChildAdapterPosition(itemView)).getAddress());
-                intent.putExtra("type",Constants.STATUS_TYPE_VIDEO);
-                context.startActivity(intent);
-            });
         }
     }
 }

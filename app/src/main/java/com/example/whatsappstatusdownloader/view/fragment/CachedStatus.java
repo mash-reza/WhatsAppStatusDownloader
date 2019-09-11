@@ -35,7 +35,7 @@ public class CachedStatus extends Fragment {
 
         //recyclerView
         recyclerView = view.findViewById(R.id.cached_recycler_view);
-        Line manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new CachedAdapter(getActivity(), Repository.getStatus(),view.findViewById(R.id.cached_recycler_view)));
 //        recyclerView.setDrawingCacheEnabled(true);
