@@ -45,12 +45,4 @@ public class Repository {
 
         return statuses;
     }
-
-    //        statuses.add(new Status(0, Constants.STATUS_TYPE_IMAGE, "/WhatsApp/Media/.Statuses/img01.jpg"));
-//        statuses.add(new Status(1, Constants.STATUS_TYPE_IMAGE, "/WhatsApp/Media/.Statuses/img02.jpg"));
-//        statuses.add(new Status(2, Constants.STATUS_TYPE_IMAGE, "/WhatsApp/Media/.Statuses/img03.jpg"));
-//        statuses.add(new Status(3, Constants.STATUS_TYPE_VIDEO, "/WhatsApp/Media/.Statuses/vid01.mp4"));
-//        statuses.add(new Status(4, Constants.STATUS_TYPE_IMAGE, "/WhatsApp/Media/.Statuses/img02.jpg"));
-//        statuses.add(new Status(5, Constants.STATUS_TYPE_IMAGE, "/WhatsApp/Media/.Statuses/img01.jpg"));
-//        statuses.add(new Status(6, Constants.STATUS_TYPE_VIDEO, "/WhatsApp/Media/.Statuses/vid02.mp4"));
 }

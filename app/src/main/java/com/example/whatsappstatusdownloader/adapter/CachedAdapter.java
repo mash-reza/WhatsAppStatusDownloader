@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.model.Status;
 import com.example.whatsappstatusdownloader.util.Constants;
+import com.example.whatsappstatusdownloader.util.Repository;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +71,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
             case Constants.STATUS_TYPE_VIDEO: {
                 //set thumbnail
 //                Glide.with(context).load(ThumbnailUtils.createVideoThumbnail(statuses.get(i).getAddress(), MediaStore.Video.Thumbnails.MICRO_KIND)).into(myHolder.image);
-                Glide.with(context).load(Uri.parse(statuses.get(i).getAddress())).into(myHolder.image);
+                Glide.with(context).load(Uri.fromFile(new File(statuses.get(i).getAddress()))).into(myHolder.image);
                 myHolder.foreground.setOnClickListener(v -> {
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("type", Constants.STATUS_TYPE_VIDEO);
@@ -82,10 +83,10 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
         }
 
         myHolder.imageButton.setOnClickListener(v -> {
-            Log.i(TAG, "MyHolder: " + i);
+            Repository repository = new Repository();
+            int size = repository.getStatusFromPhone().size();
             Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
             //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
-
             //make pictures dir in gallery
             File folderRoot = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
             folderRoot.mkdirs();
@@ -143,6 +144,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
                     }
                 }
             }
+
         });
 
     }
@@ -151,6 +153,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
     public int getItemCount() {
         return statuses.size();
     }
+
 
     @Override
     public int getItemViewType(int position) {

@@ -2,6 +2,7 @@ package com.example.whatsappstatusdownloader.view.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabItem;
@@ -42,9 +43,29 @@ public class StatusTab extends AppCompatActivity {
 
 
         //setting viewpager
-        viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount()));
+        viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), this));
 //        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i) {
+                    case 0:
+                        Log.d(TAG, "onPageSelected: " + i);
+                    case 1:
+                        Log.d(TAG, "onPageSelected: " + i);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         checkStoragePermission();
 
@@ -67,8 +88,12 @@ public class StatusTab extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this,"granted",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
 }
