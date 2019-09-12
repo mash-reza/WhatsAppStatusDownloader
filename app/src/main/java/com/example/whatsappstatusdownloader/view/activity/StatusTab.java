@@ -56,13 +56,41 @@ public class StatusTab extends AppCompatActivity {
                 switch (i) {
                     case 0:
                         Log.d(TAG, "onPageSelected: " + i);
+                        break;
                     case 1:
                         Log.d(TAG, "onPageSelected: " + i);
+                        break;
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tabLayout.getSelectedTabPosition()) {
+                    case 0:
+                        Log.i(TAG, "onTabSelected: 1");
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case 1:
+                        Log.i(TAG, "onTabSelected: 2");
+                        viewPager.setCurrentItem(1);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
