@@ -2,44 +2,67 @@ package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+import android.view.LayoutInflater;
 
+import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.view.fragment.CachedStatus;
 import com.example.whatsappstatusdownloader.view.fragment.GalleryStatus;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "PageAdapter";
     private int numberOfTabs;
+    private Context context;
+    private CachedStatus cachedStatus;
+    private GalleryStatus galleryStatus;
     //private FragmentManager fragmentManager;
-    private CachedStatus cachedStatus = new CachedStatus();
-    private GalleryStatus galleryStatus = new GalleryStatus();
+//    private CachedStatus cachedStatus = new CachedStatus();
+//    private GalleryStatus galleryStatus = new GalleryStatus();
 
-    public PageAdapter(FragmentManager fm, int numberOfTabs, Context context) {
+    public PageAdapter(FragmentManager fm, int numberOfTabs, Context context,CachedStatus cachedStatus, GalleryStatus galleryStatus) {
         super(fm);
         this.numberOfTabs = numberOfTabs;
         //this.fragmentManager = fm;
+        this.context = context;
+        this.cachedStatus = cachedStatus;
+        this.galleryStatus = galleryStatus;
     }
 
     @Override
     public int getItemPosition(@NonNull Object object) {
         //notifyDataSetChanged();
-        Log.d(TAG, "getItemPosition() returned: ");
+        Log.i(TAG, "getItemPosition() returned: ");
         return POSITION_NONE;
     }
 
     @Override
     public Fragment getItem(int i) {
-        Log.d(TAG, "getItem: " + i);
+        Log.i(TAG, "getItem: " + i);
         switch (i) {
             case 0:
+                //galleryStatus.onDestroyView();
                 return cachedStatus;
             case 1:
+                //galleryStatus.onCreate(null);
                 return galleryStatus;
             default:
                 return null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position){
+            case 0:
+                return context.getString(R.string.tab_item_cached_title);
+            case 1:
+                return context.getString(R.string.tab_item_gallery_title);
+                default:return null;
         }
     }
 
