@@ -21,36 +21,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/status_videoView"/>
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/share_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/share_icon"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/share_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/share_fab_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/main_fab"
-        app:layout_constraintEnd_toEndOf="@+id/main_fab"
-        app:layout_constraintStart_toStartOf="@+id/main_fab"
-        app:layout_constraintTop_toTopOf="@id/main_fab" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/delete_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/delete_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/main_fab"
-        app:layout_constraintEnd_toEndOf="@+id/main_fab"
-        app:layout_constraintStart_toStartOf="@+id/main_fab"
-        app:layout_constraintTop_toTopOf="@id/main_fab" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/main_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/fab_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <ImageButton
+        android:id="@+id/delete_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/delete_icon"
+        app:layout_constraintEnd_toStartOf="@id/share_button"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

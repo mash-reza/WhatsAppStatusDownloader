@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -43,19 +44,13 @@ public class Status extends AppCompatActivity {
     TouchImageView imageView;
     PlayerView playerView;
     ConstraintLayout layout;
+    ImageButton deleteButton;
+    ImageButton shareButton;
 
-    FloatingActionButton mainFab;
-    FloatingActionButton deleteFab;
-    FloatingActionButton shareFab;
-    private Animation fab_open;
-    private Animation fab_close;
-    private Animation fab_clock;
-    private Animation fab_anticlock;
 
     SimpleExoPlayer player;
     DataSource.Factory mediaDataSourceFactory;
 
-    boolean isOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,43 +61,61 @@ public class Status extends AppCompatActivity {
         imageView = findViewById(R.id.status_imageView);
         playerView = findViewById(R.id.status_videoView);
         layout = findViewById(R.id.status_layout);
+        deleteButton = findViewById(R.id.delete_button);
+        shareButton = findViewById(R.id.share_button);
 
-        mainFab = findViewById(R.id.main_fab);
-        deleteFab = findViewById(R.id.delete_fab);
-        shareFab = findViewById(R.id.share_fab);
+        deleteButton.setOnClickListener(v -> {
+            Log.i(TAG, "onCreate: delete button clicked");
+        });
 
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
-        fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
-
-
-        mainFab.setOnClickListener(v -> {
-
-            if (isOpen) {
-                deleteFab.animate().translationY(0);
-                shareFab.animate().translationY(0);
-                mainFab.startAnimation(fab_anticlock);
-                deleteFab.setClickable(false);
-                shareFab.setClickable(false);
-                isOpen = false;
-            } else {
-                deleteFab.animate().translationY(-150);
-                shareFab.animate().translationY(-300);
-                mainFab.startAnimation(fab_clock);
-                deleteFab.setClickable(true);
-                shareFab.setClickable(true);
-                isOpen = true;
+//        shareButton.setOnClickListener(v -> {
+//            Log.i(TAG, "onCreate: share button clicked");
+//            Intent shareIntent = new Intent();
+//            shareIntent.setAction(Intent.ACTION_SEND);
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, path);
+//            shareIntent.setType("image/jpg");
+//            startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
+//
+//
+//        });
+        deleteButton.setOnClickListener(v -> {
+            File file = new File(path);
+            try {
+                boolean isDeleted = file.delete();
+                Log.i(TAG, "onCreate: deleting file" + isDeleted);
+            } catch (Exception e) {
+                Log.e(TAG, "onCreate: ", e);
             }
         });
+
 
         path = intent.getStringExtra("path");
         type = intent.getIntExtra("type", 2);
         if (type == Constants.STATUS_TYPE_IMAGE) {
             playerView.setVisibility(View.GONE);
             Glide.with(this).load(new File(path)).into(imageView);
+            shareButton.setOnClickListener(v -> {
+                Log.i(TAG, "onCreate: share button clicked");
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                shareIntent.setType("image/jpg");
+                startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
+
+
+            });
         } else if (type == Constants.STATUS_TYPE_VIDEO) {
             imageView.setVisibility(View.GONE);
+            shareButton.setOnClickListener(v -> {
+                Log.i(TAG, "onCreate: share button clicked");
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                shareIntent.setType("video/mp4");
+                startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
+
+
+            });
         }
 
     }

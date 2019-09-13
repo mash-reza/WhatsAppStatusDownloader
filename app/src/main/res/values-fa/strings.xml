@@ -3,4 +3,6 @@
     <string name="app_name">استاتوس دانلودر واتس اپ</string>
     <string name="tab_item_cached_title">استاتوس</string>
     <string name="tab_item_gallery_title">دانلود شده</string>
+    <string name="share_intent_title">اشتراک استاتوس</string>
+
 </resources>

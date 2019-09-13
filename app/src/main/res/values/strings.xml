@@ -2,4 +2,5 @@
     <string name="app_name">WhatsAppStatusDownloader</string>
     <string name="tab_item_cached_title">Status</string>
     <string name="tab_item_gallery_title">Downloaded</string>
+    <string name="share_intent_title">Share Status</string>
 </resources>

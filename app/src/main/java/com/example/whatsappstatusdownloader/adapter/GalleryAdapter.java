@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
@@ -39,7 +38,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
         switch (getItemViewType(i)) {
             case Constants.STATUS_TYPE_IMAGE:
-                myHolder.foreground.setVisibility(View.GONE);
                 myHolder.playIcon.setVisibility(View.GONE);
                 Glide.with(context).load(statusList.get(i).getAddress()).into(myHolder.image);
                 myHolder.image.setOnClickListener(v -> {
@@ -51,7 +49,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                 break;
             case Constants.STATUS_TYPE_VIDEO:
                 Glide.with(context).load(Uri.fromFile(new File(statusList.get(i).getAddress()))).into(myHolder.image);
-                myHolder.foreground.setOnClickListener(v -> {
+                myHolder.image.setOnClickListener(v -> {
                     Intent intent2 = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent2.putExtra("path", statusList.get(i).getAddress());
                     intent2.putExtra("type", Constants.STATUS_TYPE_VIDEO);
@@ -74,18 +72,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
 
     class MyHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        ImageView foreground;
         ImageView playIcon;
-        ImageButton deleteImageButton;
-        ImageButton shareImageButton;
-
         MyHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.gallery_imageView_item);
-            foreground = itemView.findViewById(R.id.gallery_item_foreground);
             playIcon = itemView.findViewById(R.id.gallery_play_icon_imageView);
-            deleteImageButton = itemView.findViewById(R.id.gallery_delete_imageButton);
-            shareImageButton = itemView.findViewById(R.id.gallery_share_imageButton);
         }
     }
 }

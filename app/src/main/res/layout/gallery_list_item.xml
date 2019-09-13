@@ -23,39 +23,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="250dp"
-            android:id="@+id/gallery_item_foreground"
-            android:background="@drawable/video_foreground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:alpha=".6"/>
-
-        <ImageButton
-            android:id="@+id/gallery_share_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/share_icon"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-
-            />
-
-        <ImageButton
-            android:id="@+id/gallery_delete_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/gallery_share_imageButton"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/delete_icon"/>
-        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/play_icon"
