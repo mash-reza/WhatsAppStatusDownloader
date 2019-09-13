@@ -1,6 +1,7 @@
 package com.example.whatsappstatusdownloader.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -20,6 +21,14 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.util.Constants;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.ortiz.touchview.TouchImageView;
 
 import java.io.File;
@@ -32,7 +41,7 @@ public class Status extends AppCompatActivity {
     String path;
 
     TouchImageView imageView;
-    VideoView videoView;
+    PlayerView playerView;
     ConstraintLayout layout;
 
     FloatingActionButton mainFab;
@@ -43,6 +52,9 @@ public class Status extends AppCompatActivity {
     private Animation fab_clock;
     private Animation fab_anticlock;
 
+    SimpleExoPlayer player;
+    DataSource.Factory mediaDataSourceFactory;
+
     boolean isOpen = false;
 
     @Override
@@ -52,7 +64,7 @@ public class Status extends AppCompatActivity {
         Intent intent = getIntent();
 
         imageView = findViewById(R.id.status_imageView);
-        videoView = findViewById(R.id.status_videoView);
+        playerView = findViewById(R.id.status_videoView);
         layout = findViewById(R.id.status_layout);
 
         mainFab = findViewById(R.id.main_fab);
@@ -67,14 +79,14 @@ public class Status extends AppCompatActivity {
 
         mainFab.setOnClickListener(v -> {
 
-            if(isOpen){
+            if (isOpen) {
                 deleteFab.animate().translationY(0);
                 shareFab.animate().translationY(0);
                 mainFab.startAnimation(fab_anticlock);
                 deleteFab.setClickable(false);
                 shareFab.setClickable(false);
                 isOpen = false;
-            }else {
+            } else {
                 deleteFab.animate().translationY(-150);
                 shareFab.animate().translationY(-300);
                 mainFab.startAnimation(fab_clock);
@@ -87,12 +99,10 @@ public class Status extends AppCompatActivity {
         path = intent.getStringExtra("path");
         type = intent.getIntExtra("type", 2);
         if (type == Constants.STATUS_TYPE_IMAGE) {
-            videoView.setVisibility(View.GONE);
+            playerView.setVisibility(View.GONE);
             Glide.with(this).load(new File(path)).into(imageView);
         } else if (type == Constants.STATUS_TYPE_VIDEO) {
             imageView.setVisibility(View.GONE);
-            videoView.setVideoURI(Uri.parse(path));
-            videoView.start();
         }
 
     }
@@ -100,7 +110,54 @@ public class Status extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        videoView.stopPlayback();
         finish();
+    }
+
+    private void initializePlayer() {
+
+        player = ExoPlayerFactory.newSimpleInstance(this);
+
+        mediaDataSourceFactory =new DefaultDataSourceFactory(this, Util.getUserAgent(this, "mediaPlayerSample"));
+
+        MediaSource mediaSource =new ExtractorMediaSource.Factory(mediaDataSourceFactory)
+                .createMediaSource(Uri.parse(path));
+
+
+        player.prepare(mediaSource,false,false);
+        player.setPlayWhenReady(true);
+
+
+        playerView.setShutterBackgroundColor(Color.TRANSPARENT);
+        playerView.setPlayer(player);
+        playerView.requestFocus();
+
+    }
+
+    private void releasePlayer() {
+        player.release();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) initializePlayer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23) initializePlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) releasePlayer();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) releasePlayer();
     }
 }

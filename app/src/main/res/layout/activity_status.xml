@@ -17,14 +17,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <VideoView
-        android:id="@+id/status_videoView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<com.google.android.exoplayer2.ui.PlayerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/status_videoView"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/share_fab"
