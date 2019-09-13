@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.adapter.GalleryAdapter;
+import com.example.whatsappstatusdownloader.adapter.OnDataChangeListener;
 import com.example.whatsappstatusdownloader.util.Repository;
 
 
@@ -25,7 +26,6 @@ public class GalleryStatus extends Fragment {
     private static final String TAG = "GalleryStatus";
 
     RecyclerView recyclerView;
-
 
     public GalleryStatus() {
         // Required empty public constructor

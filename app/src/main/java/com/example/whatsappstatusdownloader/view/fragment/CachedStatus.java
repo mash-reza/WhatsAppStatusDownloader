@@ -1,6 +1,7 @@
 package com.example.whatsappstatusdownloader.view.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.adapter.CachedAdapter;
-import com.example.whatsappstatusdownloader.adapter.GalleryAdapter;
 import com.example.whatsappstatusdownloader.util.Repository;
 
 
@@ -29,6 +29,7 @@ public class CachedStatus extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,8 +41,8 @@ public class CachedStatus extends Fragment {
         recyclerView = view.findViewById(R.id.cached_recycler_view);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(manager);
-        CachedAdapter adapter = new CachedAdapter(getActivity(), Repository.getStatus());
-        recyclerView.setAdapter(adapter);
+//        CachedAdapter adapter = new CachedAdapter(getActivity(), Repository.getStatus());
+        recyclerView.setAdapter(new CachedAdapter(getActivity(), Repository.getStatus()));
         return view;
     }
 

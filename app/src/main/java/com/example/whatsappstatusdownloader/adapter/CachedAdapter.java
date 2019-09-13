@@ -35,7 +35,8 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> {
+public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
+{
     private static final String TAG = "CachedAdapter";
 
 
@@ -159,6 +160,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder> 
     public int getItemViewType(int position) {
         return statuses.get(position).getType();
     }
+
 
     class MyHolder extends RecyclerView.ViewHolder {
         ImageView image;

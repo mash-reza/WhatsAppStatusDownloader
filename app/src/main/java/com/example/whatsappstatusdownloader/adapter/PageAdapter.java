@@ -7,29 +7,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
-import android.view.LayoutInflater;
-
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.view.fragment.CachedStatus;
 import com.example.whatsappstatusdownloader.view.fragment.GalleryStatus;
+
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "PageAdapter";
     private int numberOfTabs;
     private Context context;
-    private CachedStatus cachedStatus;
-    private GalleryStatus galleryStatus;
     //private FragmentManager fragmentManager;
 //    private CachedStatus cachedStatus = new CachedStatus();
 //    private GalleryStatus galleryStatus = new GalleryStatus();
 
-    public PageAdapter(FragmentManager fm, int numberOfTabs, Context context,CachedStatus cachedStatus, GalleryStatus galleryStatus) {
+    public PageAdapter(FragmentManager fm, int numberOfTabs, Context context) {
         super(fm);
         this.numberOfTabs = numberOfTabs;
         //this.fragmentManager = fm;
         this.context = context;
-        this.cachedStatus = cachedStatus;
-        this.galleryStatus = galleryStatus;
     }
 
     @Override
@@ -45,10 +40,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         switch (i) {
             case 0:
                 //galleryStatus.onDestroyView();
-                return cachedStatus;
+                return new CachedStatus();
             case 1:
                 //galleryStatus.onCreate(null);
-                return galleryStatus;
+                return new GalleryStatus();
             default:
                 return null;
         }
@@ -71,7 +66,4 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return numberOfTabs;
     }
 
-    public  void update(){
-
-    }
 }
