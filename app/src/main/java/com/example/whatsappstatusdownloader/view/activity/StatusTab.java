@@ -46,6 +46,7 @@ public class StatusTab extends AppCompatActivity {
         tabItem2 = findViewById(R.id.galleryTabItem);
         viewPager = findViewById(R.id.viewPager);
 
+        checkStoragePermission();
 
         //setting viewpager
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(),
@@ -55,7 +56,7 @@ public class StatusTab extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        checkStoragePermission();
+
 
     }
 
