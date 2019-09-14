@@ -67,7 +67,6 @@ public class StatusTab extends AppCompatActivity {
             ActivityCompat.requestPermissions(
                     this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
         } else {
 
         }
