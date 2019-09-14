@@ -7,4 +7,6 @@ public class Constants {
     public static final int STATUS_TYPE_IMAGE = 0;
     public static final int STATUS_TYPE_VIDEO = 1;
     public static final String WHATSAPP_STATUSES_FOLDER_NAME = "/WhatsApp/Media/.Statuses/";
+    public static final String CACHED_STARTER_INTENT = "cached";
+    public static final String GALLERY_TARTER_INTENT = "gallery";
 }

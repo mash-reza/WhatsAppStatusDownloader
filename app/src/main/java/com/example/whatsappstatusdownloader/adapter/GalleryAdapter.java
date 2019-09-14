@@ -44,6 +44,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("path", statusList.get(i).getAddress());
                     intent.putExtra("type", Constants.STATUS_TYPE_IMAGE);
+                    intent.putExtra("starter", Constants.GALLERY_TARTER_INTENT);
                     context.startActivity(intent);
                 });
                 break;
@@ -53,6 +54,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                     Intent intent2 = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent2.putExtra("path", statusList.get(i).getAddress());
                     intent2.putExtra("type", Constants.STATUS_TYPE_VIDEO);
+                    intent2.putExtra("starter", Constants.GALLERY_TARTER_INTENT);
                     context.startActivity(intent2);
                 });
                 break;

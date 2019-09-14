@@ -65,6 +65,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("type", Constants.STATUS_TYPE_IMAGE);
                     intent.putExtra("path", statuses.get(i).getAddress());
+                    intent.putExtra("starter", Constants.CACHED_STARTER_INTENT);
                     context.startActivity(intent);
                 });
                 break;
@@ -77,6 +78,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("type", Constants.STATUS_TYPE_VIDEO);
                     intent.putExtra("path", statuses.get(i).getAddress());
+                    intent.putExtra("starter", Constants.CACHED_STARTER_INTENT);
                     context.startActivity(intent);
                 });
                 break;

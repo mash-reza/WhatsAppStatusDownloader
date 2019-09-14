@@ -40,6 +40,7 @@ public class Status extends AppCompatActivity {
 
     int type;
     String path;
+    String starter;
 
     TouchImageView imageView;
     PlayerView playerView;
@@ -78,19 +79,26 @@ public class Status extends AppCompatActivity {
 //
 //
 //        });
-        deleteButton.setOnClickListener(v -> {
-            File file = new File(path);
-            try {
-                boolean isDeleted = file.delete();
-                Log.i(TAG, "onCreate: deleting file" + isDeleted);
-            } catch (Exception e) {
-                Log.e(TAG, "onCreate: ", e);
-            }
-        });
 
 
         path = intent.getStringExtra("path");
         type = intent.getIntExtra("type", 2);
+        starter = intent.getStringExtra("starter");
+
+        if (starter.equals(Constants.CACHED_STARTER_INTENT)) {
+            deleteButton.setVisibility(View.GONE);
+        } else if (starter.equals(Constants.GALLERY_TARTER_INTENT)) {
+            deleteButton.setOnClickListener(v -> {
+                File file = new File(path);
+                try {
+                    boolean isDeleted = file.delete();
+                    Log.i(TAG, "onCreate: deleting file" + isDeleted);
+                } catch (Exception e) {
+                    Log.e(TAG, "onCreate: ", e);
+                }
+            });
+        }
+
         if (type == Constants.STATUS_TYPE_IMAGE) {
             playerView.setVisibility(View.GONE);
             Glide.with(this).load(new File(path)).into(imageView);
@@ -98,9 +106,9 @@ public class Status extends AppCompatActivity {
                 Log.i(TAG, "onCreate: share button clicked");
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, new File(path));
                 shareIntent.setType("image/jpg");
-                startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
+                startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_intent_title)));
 
 
             });
@@ -110,9 +118,9 @@ public class Status extends AppCompatActivity {
                 Log.i(TAG, "onCreate: share button clicked");
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, new File(path));
                 shareIntent.setType("video/mp4");
-                startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
+                startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_intent_title)));
 
 
             });
@@ -130,13 +138,13 @@ public class Status extends AppCompatActivity {
 
         player = ExoPlayerFactory.newSimpleInstance(this);
 
-        mediaDataSourceFactory =new DefaultDataSourceFactory(this, Util.getUserAgent(this, "mediaPlayerSample"));
+        mediaDataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "mediaPlayerSample"));
 
-        MediaSource mediaSource =new ExtractorMediaSource.Factory(mediaDataSourceFactory)
+        MediaSource mediaSource = new ExtractorMediaSource.Factory(mediaDataSourceFactory)
                 .createMediaSource(Uri.parse(path));
 
 
-        player.prepare(mediaSource,false,false);
+        player.prepare(mediaSource, false, false);
         player.setPlayWhenReady(true);
 
 
