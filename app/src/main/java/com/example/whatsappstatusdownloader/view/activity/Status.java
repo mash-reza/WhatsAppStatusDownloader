@@ -10,6 +10,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -118,11 +119,12 @@ public class Status extends AppCompatActivity {
                 Log.i(TAG, "onCreate: share button clicked");
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this,
+                        this.getApplicationContext().getPackageName() + ".provider"
+                        , new File(path)));
                 shareIntent.setType("image/jpg");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_intent_title)));
-
-
             });
         } else if (type == Constants.STATUS_TYPE_VIDEO) {
             imageView.setVisibility(View.GONE);
@@ -133,8 +135,6 @@ public class Status extends AppCompatActivity {
                 shareIntent.putExtra(Intent.EXTRA_STREAM, new File(path));
                 shareIntent.setType("video/mp4");
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_intent_title)));
-
-
             });
         }
 
