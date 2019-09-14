@@ -2,12 +2,9 @@ package com.example.whatsappstatusdownloader.view.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,11 @@ import android.view.ViewGroup;
 
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.adapter.GalleryAdapter;
+import com.example.whatsappstatusdownloader.util.Constants;
 import com.example.whatsappstatusdownloader.util.Repository;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 
 /**
@@ -30,10 +31,12 @@ public class GalleryStatus extends Fragment {
         // Required empty public constructor
     }
 
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+
         Log.i(TAG, "onCreateView: GalleryFragment");
 
         // Inflate the layout for this fragment
@@ -47,6 +50,7 @@ public class GalleryStatus extends Fragment {
         return view;
     }
 
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -63,5 +67,13 @@ public class GalleryStatus extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         Log.i(TAG, "onDestroyView: GalleryFragment");
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onMessageEvent(String event){
+        Log.i(TAG, "onMessageEvent: event "+event);
+        if(event.equals(Constants.REFRESH_GALLERY_EVENT_MESSAGE))
+            recyclerView.setAdapter(new GalleryAdapter(getActivity(),Repository.getStatusFromPhone()));
     }
 }

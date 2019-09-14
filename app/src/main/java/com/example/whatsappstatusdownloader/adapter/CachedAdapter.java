@@ -2,14 +2,10 @@ package com.example.whatsappstatusdownloader.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaScannerConnection;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +20,8 @@ import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.model.Status;
 import com.example.whatsappstatusdownloader.util.Constants;
 import com.example.whatsappstatusdownloader.util.Repository;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -147,7 +145,8 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
                     }
                 }
             }
-
+            //event bus
+            EventBus.getDefault().post(Constants.REFRESH_GALLERY_EVENT_MESSAGE);
         });
 
     }

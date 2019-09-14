@@ -14,15 +14,8 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.MediaController;
-import android.widget.VideoView;
-
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.util.Constants;
@@ -35,6 +28,8 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.ortiz.touchview.TouchImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -73,17 +68,6 @@ public class Status extends AppCompatActivity {
             Log.i(TAG, "onCreate: delete button clicked");
         });
 
-//        shareButton.setOnClickListener(v -> {
-//            Log.i(TAG, "onCreate: share button clicked");
-//            Intent shareIntent = new Intent();
-//            shareIntent.setAction(Intent.ACTION_SEND);
-//            shareIntent.putExtra(Intent.EXTRA_STREAM, path);
-//            shareIntent.setType("image/jpg");
-//            startActivity(Intent.createChooser(shareIntent,getResources().getString(R.string.share_intent_title)));
-//
-//
-//        });
-
 
         path = intent.getStringExtra("path");
         type = intent.getIntExtra("type", 2);
@@ -101,6 +85,7 @@ public class Status extends AppCompatActivity {
                             .setPositiveButton(R.string.delete_accepted, (dialog, id) -> {
                                 boolean isDeleted = file.delete();
                                 Log.i(TAG, "onCreate: deleting file" + isDeleted);
+                                EventBus.getDefault().post(Constants.REFRESH_GALLERY_EVENT_MESSAGE);
                                 finish();
                             })
                             .setNegativeButton(R.string.delete_rejected, (dialog, id) -> {
