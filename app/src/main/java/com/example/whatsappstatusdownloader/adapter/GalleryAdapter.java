@@ -55,6 +55,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                     intent.putExtra("starter", Constants.GALLERY_TARTER_INTENT);
                     context.startActivity(intent);
                 });
+                myHolder.shareButton.setOnClickListener(v -> {
+                    Log.i(TAG, "onCreate: share button clicked");
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context,
+                            context.getApplicationContext().getPackageName() + ".provider"
+                            , new File(statusList.get(i).getAddress())));
+                    shareIntent.setType("image/jpg");
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_intent_title)));
+                });
                 break;
             case Constants.STATUS_TYPE_VIDEO:
                 Glide.with(context).load(Uri.fromFile(new File(statusList.get(i).getAddress()))).into(myHolder.image);
@@ -64,6 +75,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                     intent2.putExtra("type", Constants.STATUS_TYPE_VIDEO);
                     intent2.putExtra("starter", Constants.GALLERY_TARTER_INTENT);
                     context.startActivity(intent2);
+                });
+                myHolder.shareButton.setOnClickListener(v -> {
+                    Log.i(TAG, "onCreate: share button clicked");
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context,
+                            context.getApplicationContext().getPackageName() + ".provider"
+                            , new File(statusList.get(i).getAddress())));
+                    shareIntent.setType("video/mp4");
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_intent_title)));
                 });
                 break;
         }
@@ -88,17 +110,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
             } catch (Exception e) {
                 Log.e(TAG, "onCreate: ", e);
             }
-        });
-        myHolder.shareButton.setOnClickListener(v -> {
-            Log.i(TAG, "onCreate: share button clicked");
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context,
-                    context.getApplicationContext().getPackageName() + ".provider"
-                    , new File(statusList.get(i).getAddress())));
-            shareIntent.setType("image/jpg");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_intent_title)));
         });
     }
 

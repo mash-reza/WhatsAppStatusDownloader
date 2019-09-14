@@ -132,8 +132,11 @@ public class Status extends AppCompatActivity {
                 Log.i(TAG, "onCreate: share button clicked");
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, new File(path));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this,
+                        this.getApplicationContext().getPackageName() + ".provider"
+                        , new File(path)));
                 shareIntent.setType("video/mp4");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_intent_title)));
             });
         }
