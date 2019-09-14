@@ -6,4 +6,8 @@
     <string name="delete_accepted">Delete</string>
     <string name="delete_rejected">Ignore</string>
     <string name="delete_dialog_messege">Delete this file?</string>
+    <string name="welcome">Welcome To WhatsAppStatusDownloader!</string>
+    <string name="welcome_content">In order to use this app, you should have already installed WhatsApp application and viewed at least one status in WhatsApp. If you don\'t have installed yet, we suggest you install and create a account. This application is able to show and store WhatsApp Statuses for further purposes. You can download statuses and watch them in app or gallery. Both image and video status types are supported to view in this app. Enjoy Using!</string>
+    <string name="continue_button">Continue</string>
+    <string name="download_button_click_message">Status added to Gallery!</string>
 </resources>

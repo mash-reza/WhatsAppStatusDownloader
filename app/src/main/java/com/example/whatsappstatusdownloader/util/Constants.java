@@ -12,6 +12,8 @@ public class Constants {
     public static final String CACHED_STARTER_INTENT = "cached";
     public static final String GALLERY_TARTER_INTENT = "gallery";
     public static final String REFRESH_GALLERY_EVENT_MESSAGE = "refresh gallery list";
-    public static final String GRANTED_PERMISSION_PREFERENCE = "launch";
-    public static final String GRANTED_PERMISSION_PREFERENCE_KEY = "launch key";
+    public static final String PREFERENCE = "pref";
+    public static final String GRANTED_PERMISSION_PREFERENCE_KEY = "launch_key";
+    public static final String TUTORIAL_BACKGROUND_IMAGE_NAME = "tutorial_background.jpg";
+    public static final String TUTORIAL_PREFERENCE_KEY = "tutorial_key";
 }

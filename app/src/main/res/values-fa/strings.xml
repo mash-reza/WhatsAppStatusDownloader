@@ -7,6 +7,11 @@
     <string name="delete_accepted">حذف</string>
     <string name="delete_rejected">انصراف</string>
     <string name="delete_dialog_messege">آیا از حذف این فایل مطمن هستید؟</string>
+    <string name="welcome">به استاتوس دانلودر واتس اپ خوش آمدید!</string>
+    <string name="welcome_content">برای استفاده از این برنامه باید حتما قبلا نرم افزار WhatsApp را بر روی دستگاه خود نصب کرده و حداقل یک استاتوس در WhatsApp مشاهده کرده باشید. اگر هنوز نصب نکرده اید پیشنهاد می کنیم WhatsApp را نصب کرده و یک حساب کاربری در آن بسازید. این برنامه قادر است استاتوس هایی که مشاهده کرده اید را برای شما نمایش دهد. استاتوس ها را می توانید دانلود کرده و بر روی برنامه یا گالری مشاهده کنید. این برنامه هم استاتوس عکس و هم فیلم را پشتیبانی می کند. از نصب لذت ببرید!</string>
+    <string name="continue_button">ادامه</string>
+    <string name="download_button_click_message">استاتوس به گالری اضافه شد!</string>
+
 
 
 </resources>

@@ -85,9 +85,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
 
         myHolder.imageButton.setOnClickListener(v -> {
             Repository repository = new Repository();
-            int size = repository.getStatusFromPhone().size();
-            Toast.makeText(context, "cliked", Toast.LENGTH_SHORT).show();
-            //context.startActivity(new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class));
+            Toast.makeText(context,context.getResources().getString(R.string.download_button_click_message), Toast.LENGTH_SHORT).show();
             //make pictures dir in gallery
             File folderRoot = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Constants.MEDIA_FOLDER_GALLERY_NAME);
             folderRoot.mkdirs();

@@ -38,12 +38,19 @@ public class Splash extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        preferences = getSharedPreferences(Constants.GRANTED_PERMISSION_PREFERENCE, MODE_PRIVATE);
+        preferences = getSharedPreferences(Constants.PREFERENCE, MODE_PRIVATE);
 
         if (preferences.getBoolean(Constants.GRANTED_PERMISSION_PREFERENCE_KEY, false)) {
             new Handler().postDelayed(() -> {
-                startActivity(new Intent(Splash.this, StatusTab.class));
-                finish();
+                if(preferences.getBoolean(Constants.TUTORIAL_PREFERENCE_KEY,true)){
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean(Constants.TUTORIAL_PREFERENCE_KEY,false).apply();
+                    startActivity(new Intent(Splash.this, Tutorial.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(Splash.this, StatusTab.class));
+                    finish();
+                }
             }, 2000);
 
         } else checkStoragePermission();
@@ -57,9 +64,15 @@ public class Splash extends AppCompatActivity {
             Log.i(TAG, "onRequestPermissionsResult: " + grantResults[0]);
             new Handler().postDelayed(() -> {
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(Constants.GRANTED_PERMISSION_PREFERENCE_KEY, true).commit();
-                startActivity(new Intent(Splash.this, StatusTab.class));
-                finish();
+                editor.putBoolean(Constants.GRANTED_PERMISSION_PREFERENCE_KEY, true).apply();
+                if(preferences.getBoolean(Constants.TUTORIAL_PREFERENCE_KEY,true)){
+                    editor.putBoolean(Constants.TUTORIAL_PREFERENCE_KEY,false).apply();
+                    startActivity(new Intent(Splash.this, Tutorial.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(Splash.this, StatusTab.class));
+                    finish();
+                }
             }, 2000);
         } else finish();
     }
