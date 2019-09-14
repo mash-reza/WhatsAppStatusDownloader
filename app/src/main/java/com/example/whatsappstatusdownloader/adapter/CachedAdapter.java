@@ -58,7 +58,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
     public void onBindViewHolder(@NonNull CachedAdapter.MyHolder myHolder, int i) {
         switch (myHolder.getItemViewType()) {
             case Constants.STATUS_TYPE_IMAGE: {
-                myHolder.foreground.setVisibility(View.GONE);
+                //myHolder.foreground.setVisibility(View.GONE);
                 myHolder.playIcon.setVisibility(View.GONE);
                 Glide.with(context).load(new File(statuses.get(i).getAddress())).into(myHolder.image);
                 myHolder.image.setOnClickListener(v -> {
@@ -74,7 +74,7 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
                 //set thumbnail
 //                Glide.with(context).load(ThumbnailUtils.createVideoThumbnail(statuses.get(i).getAddress(), MediaStore.Video.Thumbnails.MICRO_KIND)).into(myHolder.image);
                 Glide.with(context).load(Uri.fromFile(new File(statuses.get(i).getAddress()))).into(myHolder.image);
-                myHolder.foreground.setOnClickListener(v -> {
+                myHolder.image.setOnClickListener(v -> {
                     Intent intent = new Intent(context, com.example.whatsappstatusdownloader.view.activity.Status.class);
                     intent.putExtra("type", Constants.STATUS_TYPE_VIDEO);
                     intent.putExtra("path", statuses.get(i).getAddress());
@@ -166,14 +166,14 @@ public class CachedAdapter extends RecyclerView.Adapter<CachedAdapter.MyHolder>
 
     class MyHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        ImageView foreground;
+//        ImageView foreground;
         ImageView playIcon;
         ImageButton imageButton;
 
         MyHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.cached_imageView_item);
-            foreground = itemView.findViewById(R.id.cached_item_foreground);
+//            foreground = itemView.findViewById(R.id.cached_item_foreground);
             playIcon = itemView.findViewById(R.id.play_icon_imageView);
             imageButton = itemView.findViewById(R.id.cached_download_imageButton);
         }
