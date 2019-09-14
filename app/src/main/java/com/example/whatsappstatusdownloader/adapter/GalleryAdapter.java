@@ -18,10 +18,6 @@ import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.model.Status;
 import com.example.whatsappstatusdownloader.util.Constants;
-import com.example.whatsappstatusdownloader.view.activity.Splash;
-import com.example.whatsappstatusdownloader.view.activity.StatusTab;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.List;
