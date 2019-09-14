@@ -3,4 +3,7 @@
     <string name="tab_item_cached_title">Status</string>
     <string name="tab_item_gallery_title">Downloaded</string>
     <string name="share_intent_title">Share Status</string>
+    <string name="delete_accepted">Delete</string>
+    <string name="delete_rejected">Ignore</string>
+    <string name="delete_dialog_messege">Delete this file?</string>
 </resources>

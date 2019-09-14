@@ -1,5 +1,6 @@
 package com.example.whatsappstatusdownloader.view.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -7,6 +8,8 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,8 +94,17 @@ public class Status extends AppCompatActivity {
             deleteButton.setOnClickListener(v -> {
                 File file = new File(path);
                 try {
-                    boolean isDeleted = file.delete();
-                    Log.i(TAG, "onCreate: deleting file" + isDeleted);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(R.string.delete_dialog_messege)
+                            .setPositiveButton(R.string.delete_accepted, (dialog, id) -> {
+                                boolean isDeleted = file.delete();
+                                Log.i(TAG, "onCreate: deleting file" + isDeleted);
+                                finish();
+                            })
+                            .setNegativeButton(R.string.delete_rejected, (dialog, id) -> {
+                            }).create().show();
+
                 } catch (Exception e) {
                     Log.e(TAG, "onCreate: ", e);
                 }
