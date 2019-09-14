@@ -36,5 +36,5 @@ dependencies {
 //    implementation 'com.github.chrisbanes:PhotoView:2.2.0'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
-
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
