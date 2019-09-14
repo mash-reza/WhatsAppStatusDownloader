@@ -1,23 +1,30 @@
 package com.example.whatsappstatusdownloader.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappstatusdownloader.R;
 import com.example.whatsappstatusdownloader.model.Status;
 import com.example.whatsappstatusdownloader.util.Constants;
+import com.example.whatsappstatusdownloader.view.activity.Splash;
+import com.example.whatsappstatusdownloader.view.activity.StatusTab;
 
 import java.io.File;
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder> {
+    private static final String TAG = "GalleryAdapter";
 
     private Context context;
     private List<Status> statusList;
@@ -59,6 +66,31 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
                 });
                 break;
         }
+
+        myHolder.deleteButton.setOnClickListener(v -> {
+            File file = new File(statusList.get(i).getAddress());
+            try {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(R.string.delete_dialog_messege)
+                        .setPositiveButton(R.string.delete_accepted, (dialog, id) -> {
+                            boolean isDeleted = file.delete();
+                            Log.i(TAG, "onCreate: deleting file" + isDeleted);
+                            statusList.remove(i);
+//                            notifyItemRemoved(i);
+                            notifyItemRangeRemoved(i,1);
+                            new Handler().postDelayed(this::notifyDataSetChanged,500);
+                        })
+                        .setNegativeButton(R.string.delete_rejected, (dialog, id) -> {
+                        }).create().show();
+
+            } catch (Exception e) {
+                Log.e(TAG, "onCreate: ", e);
+            }
+        });
+        myHolder.shareButton.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
@@ -75,10 +107,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyHolder
     class MyHolder extends RecyclerView.ViewHolder {
         ImageView image;
         ImageView playIcon;
+        ImageButton deleteButton;
+        ImageButton shareButton;
         MyHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.gallery_imageView_item);
             playIcon = itemView.findViewById(R.id.gallery_play_icon_imageView);
+            deleteButton = itemView.findViewById(R.id.delete_button);
+            shareButton = itemView.findViewById(R.id.share_button);
         }
     }
 }
